@@ -1,28 +1,18 @@
-var app = require('express')();
+'use strict';
+
+var express= require('express');
+const socketIO = require('socket.io');
 var path = require('path');
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-}).use((require('express')).static(path.join(__dirname, '../videochat')));
-var http = require('http');
-var server = http.createServer(app);
-var io = require('socket.io')(server);
-// server.listen(8080, function () {
-//     console.log('listening on *:8080');
-// });
-server.listen(process.env.PORT || 3000, function(){
-  console.log('listening on', http.address().port);
-});
-
-
-//require our websocket library
-var WebSocketServer = require('ws').Server;
-//creating a websocket server at port 9090
-var wss = new WebSocketServer({port: 9090});
+const INDEX = path.join(__dirname, '/index.html');
+const PORT = process.env.PORT || 3000;
+const server = express().use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const io = socketIO(server);
 //all connected to the server users
 var users = {};
 console.log('server is listen on localhost:9090');
 //when a user connects to our sever
-wss.on('connection', function(connection){
+io.on('connection', function(connection){
  console.log('user connected');
  //when server gets a message from a connected user
  connection.on('message', function(message){

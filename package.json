@@ -1,8 +1,11 @@
 {
- "name": "webrtc-videochat",
- "version": "0.1.0",
- "description": "webrtc-videochat",
- "author": "Author",
- "license": "BSD-2-Clause",
- "start":"node StaticServer.js"
+  "name": "webrtc-videochat",
+  "version": "0.1.0",
+  "description": "webrtc-videochat",
+  "author": "Author",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "4.15.4",
+    "socket.io": "2.0.3"
+  }
 }
