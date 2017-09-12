@@ -3,5 +3,6 @@
  "version": "0.1.0",
  "description": "webrtc-videochat",
  "author": "Author",
- "license": "BSD-2-Clause"
+ "license": "BSD-2-Clause",
+ "start":"node StaticServer.js"
 }
