@@ -6,9 +6,14 @@ app.get('/', function(req, res) {
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-server.listen(8080, function () {
-    console.log('listening on *:8080');
+// server.listen(8080, function () {
+//     console.log('listening on *:8080');
+// });
+server.listen(process.env.PORT || 3000, function(){
+  console.log('listening on', http.address().port);
 });
+
+
 //require our websocket library
 var WebSocketServer = require('ws').Server;
 //creating a websocket server at port 9090
