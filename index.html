@@ -1,9 +1,10 @@
-<html lang="en">
+<!DOCTYPE html>
  <head>
  <meta charset="utf-8" />
  <title>WebRTC Video Demo</title>
  <link rel="stylesheet"
 href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+
  </head>
  <style>
  body {
@@ -58,7 +59,15 @@ to call" />
  </div>
  </div>
 </div>
-<script src="client.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect("http://localhost:9090/");
+
+socket.on('status', function (data) {  
+    log("connected");
+});
+</script>
+
 </body>
 
 </html>

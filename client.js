@@ -2,12 +2,18 @@
 var name;
 var connectedUser;
 //connecting to our signaling server
-var conn = new WebSocket('ws://localhost:9090');
-conn.onopen = function () {
+var HOST = location.origin.replace(/^http/, 'ws')
+var ws = new WebSocket(HOST);
+var el = document.getElementById('server-time');
+
+ws.onmessage = function (event) {
+  el.innerHTML = 'Server time: ' + event.data;
+};
+ws.onopen = function () {
  console.log("Connected to the signaling server");
 };
 //when we got a message from a signaling server
-conn.onmessage = function (msg) {
+socket.onmessage = function (msg) {
  console.log("Got message", msg.data);
  var data = JSON.parse(msg.data);
  switch(data.type) {
@@ -32,7 +38,7 @@ conn.onmessage = function (msg) {
  break;
  }
  };
-conn.onerror = function (err) {
+socket.onerror = function (err) {
  console.log("Got error", err);
 };
 //alias for sending JSON encoded messages
@@ -41,7 +47,7 @@ function send(message) {
  if (connectedUser) {
  message.name = connectedUser;
  }
- conn.send(JSON.stringify(message));
+ socket.send(JSON.stringify(message));
 };
 //******
 //UI selectors block
