@@ -2,10 +2,10 @@
 var name;
 var connectedUser;
 //connecting to our signaling server
-var PORT = 9090;
 
-var socket = io.connect('https://webrtcvideochatelshazly.herokuapp.com:9090/');
-console.log("Connected to the signaling server");
+
+var socket = io();
+
 socket.onopen = function () {
 console.log("");
  console.log("Connected to the signaling server");
