@@ -109,16 +109,22 @@ case "leave":
 //  connection.send("Hello from server");
  
  //When the user disconnects we should clean up its connection
- connection.on("close", function(){
+ connection.on('disconnect', function(){
+   console.log("disconnect");
+   var leaved;
  if(connection.name){
+   console.log('disconnect name:'+connection.otherName);
+   leaved=connection.otherName;
  delete users[connection.name];
  if(connection.otherName){
- console.log("Disconnecting from ", connection.otherName);
+ console.log("Disconnecting from other name: ", connection.name);
+ leaved=connection.name;
  var conn = users[connection.otherName];
  conn.otherName = null;
  if(conn != null){
  sendTo(conn, {
- type: "leave"
+ type: "leave",
+ name:leaved
  });
  }
  }

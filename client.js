@@ -31,6 +31,7 @@ socket.on('message', function (msg) {
  handleCandidate(data.candidate);
  break;
  case "leave":
+ console.log(data.name+" has been leaved the chat");
  handleLeave();
  break;
  default:
@@ -135,6 +136,7 @@ callBtn.addEventListener("click", function () {
 });
 //when somebody sends us an offer
 function handleOffer(offer, name) {
+    console.log("receive offer from"+name );
  connectedUser = name;
  yourConn.setRemoteDescription(new RTCSessionDescription(offer));
  //create an answer to an offer
@@ -164,9 +166,9 @@ hangUpBtn.addEventListener("click", function () {
  handleLeave();
 });
 function handleLeave() {
- connectedUser = null;
- remoteVideo.src = null;
+connectedUser ="";
+ remoteVideo.src = "";
  yourConn.close();
- yourConn.onicecandidate = null;
- yourConn.onaddstream = null;
+yourConn.onicecandidate = "";
+yourConn.onaddstream = "";
 };
