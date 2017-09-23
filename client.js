@@ -2,20 +2,19 @@
 var name;
 var connectedUser;
 //connecting to our signaling server
-var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);
-var el = document.getElementById('server-time');
+var PORT = 9090;
 
-ws.onmessage = function (event) {
-  el.innerHTML = 'Server time: ' + event.data;
-};
-ws.onopen = function () {
+var socket = io.connect('https://webrtcvideochatelshazly.herokuapp.com:9090/');
+console.log("Connected to the signaling server");
+socket.onopen = function () {
+console.log("");
  console.log("Connected to the signaling server");
 };
 //when we got a message from a signaling server
-socket.onmessage = function (msg) {
- console.log("Got message", msg.data);
- var data = JSON.parse(msg.data);
+socket.on('message', function (msg) {
+    console.log("to me");
+ console.log("Got message", msg);
+ var data = JSON.parse(msg);
  switch(data.type) {
  case "login":
  handleLogin(data.success);
@@ -37,17 +36,17 @@ socket.onmessage = function (msg) {
  default:
  break;
  }
- };
-socket.onerror = function (err) {
+ });
+socket.on("error", function (err) {
  console.log("Got error", err);
-};
+});
 //alias for sending JSON encoded messages
 function send(message) {
  //attach the other peer username to our messages
  if (connectedUser) {
  message.name = connectedUser;
  }
- socket.send(JSON.stringify(message));
+ socket.emit('message1',JSON.stringify(message));
 };
 //******
 //UI selectors block
@@ -66,13 +65,16 @@ var stream;
 callPage.style.display = "none";
 // Login when the user clicks the button
 loginBtn.addEventListener("click", function (event) {
+    console.log("login handle");
  name = usernameInput.value;
+ console.log(name);
  if (name.length > 0) {
  send({
  type: "login",
  name: name
  });
  }
+ 
 });
 function handleLogin(success) {
  if (success === false) {

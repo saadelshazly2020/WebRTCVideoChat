@@ -3,19 +3,20 @@
 var express= require('express');
 const socketIO = require('socket.io');
 var path = require('path');
-const INDEX = path.join(__dirname, '/index.html');
-const PORT = process.env.PORT || 3000;
-const server = express().use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const PORT = process.env.PORT || 9090;
+const server = express().get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+}).use((require('express')).static(path.join(__dirname, '../WebRTCVideoChat')) ).listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
 const io = socketIO(server);
 //all connected to the server users
 var users = {};
 console.log('server is listen on localhost:9090');
 //when a user connects to our sever
 io.on('connection', function(connection){
- console.log('user connected');
+ console.log('user connected'+"port="+PORT);
  //when server gets a message from a connected user
- connection.on('message', function(message){
+ connection.on('message1', function(message){
  var data;
  //accepting only JSON messages
  try {
@@ -32,6 +33,7 @@ io.on('connection', function(connection){
  console.log("User logged:",data.name);
  //if anyone is logged in with that username then refuse
  if(users[data.name]){
+console.log("connection success");
  sendTo(connection,{
  type:"login",
  success:false
@@ -104,7 +106,7 @@ case "leave":
  }
  });
  
- //connection.send("Hello from server");
+//  connection.send("Hello from server");
  
  //When the user disconnects we should clean up its connection
  connection.on("close", function(){
