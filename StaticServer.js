@@ -6,7 +6,7 @@ var path = require('path');
 const PORT = process.env.PORT || 9090;
 const server = express().get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
-}).use((require('express')).static(path.join(__dirname, '../WebRTCVideoChat')) ).listen(PORT, () => console.log(`Listening on ${ PORT }`));
+}).use((require('express')).static(path.join(__dirname, '/WebRTCVideoChat')) ).listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
 //all connected to the server users
